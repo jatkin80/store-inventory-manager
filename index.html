@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Inventory Manager</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+</head>
+
+<body>
+    <h1>Gilded Rose Store Inventory Manager</h1>
+
+
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label class="form-text" for="autoSizingInput">Item</label>
+            <input type="text" class="form-control" id="autoSizingInput" placeholder="+5 Dexterity Vest, Aged Brie...">
+        </div>
+        <div class="col-auto">
+            <label class="form-text" for="autoSizingInput">Sell In</label>
+            <input type="text" class="form-control" id="autoSizingInput" placeholder="Days to Sell">
+        </div>
+        <div class="col-auto">
+            <label class="form-text" for="autoSizingInput">Quality</label>
+            <input type="text" class="form-control" id="autoSizingInput">
+        </div>
+        <div class="col-auto">
+            <label class="form-text" for="autoSizingSelect">Date Added to Inventory</label>
+            <input type="date" class="calendar" id="calendar">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Add to Inventory</button>
+        </div>
+        </form>
+
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label class="visually-hidden" for="autoSizingSelect">View Inventory</label>
+                <input type="date" class="calendar" id="calendar">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+</body>
+
+</html>
