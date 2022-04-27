@@ -1,5 +1,6 @@
 const inventoryManager = document.querySelector('.inventory-manager')
 const reviewInventory = document.querySelector('.review-inventory')
+const inventoryManagerForm = document.querySelector('#inventory-manager')
 
 let inventory = [{
     name: "+5 Dexterity Vest",
@@ -34,17 +35,19 @@ let inventory = [{
 }]
 
 
-const inventoryManagerForm = document.querySelector('#inventory-manager')
+
+
 inventoryManagerForm.addEventListener("submit", (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const item = {
         name: formData.get("item-entry"),
         sell_in: formData.get("sell-in"),
-        quality: formData.get("quality")
+        quality: formData.get("quality"),
     }
-
-
+    inventory = [...inventory, item]
+    console.log(inventory)
+    console.log(item)
 })
 
 const reviewInventoryForm = document.querySelector('#review-inventory')
