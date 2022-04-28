@@ -66,13 +66,28 @@ entryForm.addEventListener("submit", (event) => {
 
 
 function createList(item) {
-    const listItem = document.createElement("tr")
+    const listItem = document.createElement("TABLE")
    listItem.classList.add("item-listing")
     listItem.innerHTML = `
    <table>
+   <thead>
+   <tr>
+<th>Item</th>
+<th>Sell-In</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
       <td>${item.name}</td>
+      </tr>
+      <tr>
         <td>${item.sellIn}</td>
+        </tr>
+        <tr>
         <td>${item.quality}</td>
+        </tr>
+        </thead>
         </table>
     `
     return listItem
