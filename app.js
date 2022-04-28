@@ -1,86 +1,136 @@
+import { format, parseISO } from "date-fns"
+
+const today = format(new Date(), "D", { useAdditionalDayOfYearTokens: true })
+
+let itemList = [
+    {
+        name: "+5 Dexterity Vest",
+        sellIn: 10,
+        quality: 20,
+        dateAdded: today,
+    },
+    {
+        name: "Aged Brie",
+        sellIn: 2,
+        quality: 0,
+        dateAdded: today,
+    },
+    {
+        name: "Elixir of the Mongoose",
+        sellIn: 5,
+        quality: 7,
+        dateAdded: today,
+    },
+    {
+        name: "Sulfuras, Hand of Ragnaros",
+        sellIn: 0,
+        quality: 80,
+        dateAdded: today,
+    },
+    {
+        name: "Backstage passes to a TAFKAL80ETC concert",
+        sellIn: 15,
+        quality: 20,
+        dateAdded: today,
+    },
+    {
+        name: "Conjured Mana Cake",
+        sellIn: 3,
+        quality: 6,
+        dateAdded: today,
+    }
+]
+
 const inventoryManager = document.querySelector('.inventory-manager')
 const reviewInventory = document.querySelector('.review-inventory')
 const firstForm = document.querySelector('#first-form')
-const reviewInventoryForm = document.querySelector('#review-inventory')
+const reviewInventoryForm = document.querySelector( '#review-inventory' )
 
-let inventory = [{
-    item_name: "+5 Dexterity Vest",
-    sell_in: 10,
-    quality: 20,
-    date_added: 'today',
-    category: "",
-}, {
-    item_name: "Aged Brie",
-    sell_in: 2,
-    quality: 0,
-    date_added: 'today',
-    category: "",
-}, {
-    item_name: "Elixir of the Mongoose",
-    sell_in: 5,
-    quality: 7,
-    date_added: 'today',
-    category: "",
-}, {
-    item_name: "Sulfuras, Hand of Ragnaros",
-    sell_in: 0,
-    quality: 80,
-    date_added: 'today',
-    category: "",
-}, {
-    item_name: "Backstage passes to a TAFKAL80ETC concert",
-    sell_in: 15,
-    quality: 20,
-    date_added: 'today',
-    category: "",
-}, {
-    item_name: "Conjured Mana Cake",
-    sell_in: 3,
-    quality: 6,
-    date_added: 'today',
-    category: "",
-}]
 
-firstForm.addEventListener("submit", (event) => {
+firstForm.addEventListener("submit", event => {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    const item = {
-        item_name: formData.get("item-entry"),
-        sell_in: formData.get("sell-in"),
-        quality: formData.get("quality"),
-        date_added: formData.get("date-entered"),
-        category: 'none'
+    firstForm.innerHTML = ``
+    const formdata = new FormData(event.target)
+    const itemObject = {
+        name: formdata.get("item-name"),
+        sellIn: formdata.get("item-sell-in"),
+        quality: formdata.get("item-quality"),
+        dateAdded: format(parseISO(formdata.get("date-entered")), "D", { useAdditionalDayOfYearTokens: true })
     }
-    console.log(item)
-    assignCategory(item)
-    checkQuality(item)
-    inventory = [...inventory, item]
-    return inventory
+    itemList.push(itemObject)
+    itemList.forEach(item => {
+        addItemListingToPage(createListItem(qualityCheck(sellInDegradation(item))))
+    })
+    event.target.reset()
+})
 
-
+itemList.forEach(item => {
+    addToPage(createItemListing(qualityDegradation(sellIn(item))))
 })
 
 
-function assignCategory(item) {
-    if (item.item_name.includes("Aged Brie")) {
-        item.category = "Aged Brie"
-    } else if (item.item_name.includes("Sulfuras")) {
-        item.category = "Sulfuras"
-    } else if (item.item_name.includes("Backstage passes")) {
-        item.category = "Backstage passes"
-    } else if (item.item_name.includes("Conjured")) {
-        item.category = "Conjured"
-    }
-    return item
+function createListItem(item) {
+    const listItem = document.createElement("tr")
+   listItem.classList.add("item-listing")
+    listItem.innerHTML = `
+   <table>
+        <td>${item.name}</td>
+        <td>${item.sellIn}</td>
+        <td>${item.quality}</td>
+        </table>
+    `
+    return listItem
 }
 
-function checkQuality(item) {
-    if (item.category === "Sulfuras") {
+
+function addToPage(itemListing) {
+    reviewInventory.append(itemListing)
+}
+
+function sellIn(item) {
+    if (item.name.includes("Sulfuras")) {
         item.quality = 80
-    } else if (item.quality >= 50) {
-        item.quality = 50
-    } else if (item.quality <= 0) {
-        item.quality = 0
+        return item
+    } else {
+        item.sellIn = item.sellIn - (today - item.dateAdded)
+        return item
     }
-    return item
+}
+
+function qualityCheck(item) {
+    if (item.name.includes("Aged Brie")) {
+        item.quality = +item.quality + (today - item.dateAdded)
+        return item
+    } else if (item.name.includes("Sulfuras")) {
+        item.quality = 80
+        return item
+    } else if (item.name.includes("Conjured")) {
+        item.quality = +item.quality - double(today - item.dateAdded)
+        return item
+    } else if (item.name.includes("Backstage pass")) {
+        if (item.sellIn > 10) {
+            item.quality = +item.quality + (today - item.dateAdded)
+            return item
+        } else if (item.sellIn <= 10 && item.sellIn > 5) {
+            item.quality = +item.quality + double(today - item.dateAdded)
+            return item
+        } else if (item.sellIn <= 5 && item.sellIn > 0) {
+            item.quality = +item.quality + triple(today - item.dateAdded)
+            return item
+        } else {
+            item.quality = 0
+            return item
+        }
+    } else {
+        item.quality = +item.quality - (today - item.dateAdded)
+        return item
+    }
+}
+
+function double(number) {
+    return number * 2
+}
+
+function triple(number) {
+    return number * 3
 }
