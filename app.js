@@ -1,8 +1,11 @@
 import { format, parseISO } from "date-fns"
-
 const today = format(new Date(), "D", { useAdditionalDayOfYearTokens: true })
+console.log(today)
+const entryForm = document.querySelector('#entry-form')
+const reviewInventory = document.querySelector('.review-inventory')
 
-let itemList = [
+
+let inventory = [
     {
         name: "+5 Dexterity Vest",
         sellIn: 10,
@@ -41,40 +44,33 @@ let itemList = [
     }
 ]
 
-const inventoryManager = document.querySelector('.inventory-manager')
-const reviewInventory = document.querySelector('.review-inventory')
-const firstForm = document.querySelector('#first-form')
-const reviewInventoryForm = document.querySelector( '#review-inventory' )
 
-
-firstForm.addEventListener("submit", event => {
+entryForm.addEventListener("submit", (event) => {
     event.preventDefault()
-    firstForm.innerHTML = ``
-    const formdata = new FormData(event.target)
-    const itemObject = {
-        name: formdata.get("item-name"),
-        sellIn: formdata.get("item-sell-in"),
-        quality: formdata.get("item-quality"),
-        dateAdded: format(parseISO(formdata.get("date-entered")), "D", { useAdditionalDayOfYearTokens: true })
+      const formdata = new FormData( event.target )
+    const item = {
+        name: formdata.get( "item-entry" ),
+        sellIn: formdata.get( "sell-in" ),
+        quality: formdata.get( "quality" ),
+        dateAdded: format( parseISO( formdata.get( "date-added" ) ), "D", { useAdditionalDayOfYearTokens: true })
     }
-    itemList.push(itemObject)
-    itemList.forEach(item => {
-        addItemListingToPage(createListItem(qualityCheck(sellInDegradation(item))))
+    console.log (item)
+    inventory.push(item)
+    inventory.forEach(item => {
+        addToPage(createList(qualityCheck(sellIn(item))))
     })
     event.target.reset()
 })
 
-itemList.forEach(item => {
-    addToPage(createItemListing(qualityDegradation(sellIn(item))))
-})
 
 
-function createListItem(item) {
+
+function createList(item) {
     const listItem = document.createElement("tr")
    listItem.classList.add("item-listing")
     listItem.innerHTML = `
    <table>
-        <td>${item.name}</td>
+      <td>${item.name}</td>
         <td>${item.sellIn}</td>
         <td>${item.quality}</td>
         </table>
