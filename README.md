@@ -1,4 +1,4 @@
-My store is extraordinarily ugly right now, but! I'm working on improving submissions and it actually works. So... More to come :)
+Working on submissions! Still need to refactor and make sure it all works for real.
 
 # Store Inventory Manager
 
