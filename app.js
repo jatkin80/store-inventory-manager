@@ -48,7 +48,6 @@ let inventory = [
 entryForm.addEventListener("submit", (event) => {
     event.preventDefault()
     const formdata = new FormData( event.target )
-
     const item = {
         name: formdata.get( "item-entry" ),
         sellIn: formdata.get( "sell-in" ),
@@ -64,37 +63,21 @@ entryForm.addEventListener("submit", (event) => {
     event.target.reset()
 })
 
-
-
-
-function createList(item) {
-    const listItem = document.createElement("TABLE")
-   listItem.classList.add("item-listing")
+function createList ( item )
+{
+const tableHead=document.querySelector("#data")
+    const listItem = document.createElement("tbody")
+    listItem.classList.add("item-listing")
     listItem.innerHTML = `
-   <table>
-   <thead>
-   <tr>
-<th>Item</th>
-<th>Sell-In</th>
-<th>Quality</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-      <td>${item.name}</td>
-      </tr>
-      <tr>
-        <td>${item.sellIn}</td>
-        </tr>
         <tr>
-        <td>${item.quality}</td>
+            <td>${item.name}</td>
+            <td>${item.quality}</td>
+            <td>${item.sellIn}</td>
         </tr>
-        </thead>
-        </table>
     `
+    tableHead.append(listItem)
     return listItem
 }
-
 
 function addToPage(itemListing) {
     reviewInventory.append(itemListing)
@@ -113,7 +96,6 @@ function sellIn(item) {
 function qualityCheck ( item )
 {
     const qualityTime = today - item.dateAdded
-
     if (item.name.includes("Aged Brie")) {
         item.quality = +item.quality + (qualityTime)
         return item
