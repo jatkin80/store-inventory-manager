@@ -1,7 +1,8 @@
-7822
-54/home/jatkin80/store-inventory-manager/dist/index.html1651266897044974300 0
+7828
+54/home/jatkin80/store-inventory-manager/dist/index.html1651267001684974300 0
 66/home/jatkin80/store-inventory-manager/dist/index.3a01df49.css.map1651266897004974300 0
 62/home/jatkin80/store-inventory-manager/dist/index.3a01df49.css1651266897004974300 0
+68/home/jatkin80/store-inventory-manager/dist/gilded_rose.34e70b77.jpg1651266989644974300 0
 48/home/jatkin80/store-inventory-manager/README.md1651260372724974300 0
 49/home/jatkin80/store-inventory-manager/.gitignore1651266666304974300 0
 62/home/jatkin80/store-inventory-manager/gilded_rose_favicon.png1651251459134974300 0
@@ -915,6 +916,7 @@
 85/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/setDate/index.js.flow1651266498434974300 0
 80/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/setDate/index.js1651266517704974300 0
 84/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/setDate/package.json1651266528724974300 0
+61/home/jatkin80/store-inventory-manager/dist/index.478e355a.js1651267001694974300 0
 71/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/setDate1651266534924974300 1
 98/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/differenceInQuarters/index.js.flow1651266497354974300 0
 95/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/differenceInQuarters/index.d.ts1651266534434974300 0
@@ -1637,6 +1639,7 @@
 89/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/compareDesc/package.json1651266524434974300 0
 76/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/compareDesc1651266531544974300 1
 89/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/setQuarter/index.js.flow1651266496924974300 0
+66/home/jatkin80/store-inventory-manager/dist/index.c4d68dbb.css.map1651267001684974300 0
 80/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/quartersToMonths1651266534904974300 1
 84/home/jatkin80/store-inventory-manager/node_modules/date-fns/isWeekend/index.js.flow1651266499304974300 0
 86/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/setQuarter/index.d.ts1651266534134974300 0
@@ -2521,6 +2524,7 @@
 79/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/formatDistance1651266531764974300 1
 79/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/lt/index.js1651266521494974300 0
 87/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/en-GB/index.js.flow1651266499484974300 0
+62/home/jatkin80/store-inventory-manager/dist/index.c4d68dbb.css1651267001684974300 0
 99/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/es/_lib/formatDistance/index.js1651266519294974300 0
 106/home/jatkin80/store-inventory-manager/node_modules/date-fns/fp/getOverlappingDaysInIntervals/package.json1651266528054974300 0
 71/home/jatkin80/store-inventory-manager/node_modules/date-fns/intlFormat1651266535194974300 1
@@ -4957,6 +4961,7 @@
 96/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/getDaysInMonth/index.js.flow1651266494404974300 0
 87/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/ar-DZ/index.js.flow1651266499364974300 0
 106/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/fr-CH/_lib/formatRelative/index.js1651266507484974300 0
+65/home/jatkin80/store-inventory-manager/dist/index.478e355a.js.map1651267001744974300 0
 74/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/sk1651266533944974300 1
 83/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/uk/package.json1651266530004974300 0
 88/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/nextDay/package.json1651266525544974300 0
@@ -5562,7 +5567,7 @@
 93/home/jatkin80/store-inventory-manager/node_modules/date-fns/locale/ar-MA/_lib/formatDistance1651266518554974300 1
 94/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/gd/_lib/match/index.js1651266508004974300 0
 90/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/gd/_lib/formatLong1651266507954974300 1
-43/home/jatkin80/store-inventory-manager/dist1651266897304974300 1
+43/home/jatkin80/store-inventory-manager/dist1651267003044974300 1
 91/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/differenceInYears/index.js1651266501714974300 0
 99/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/gd/_lib/formatLong/index.js1651266507954974300 0
 100/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/areIntervalsOverlapping/index.js1651266501994974300 0
@@ -7490,6 +7495,7 @@
 94/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/locale/it/_lib/match/index.js1651266509124974300 0
 93/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/minutesToSeconds/index.js1651266502734974300 0
 101/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/formatDistanceStrict/package.json1651266525164974300 0
+76/home/jatkin80/store-inventory-manager/dist/gilded_rose_favicon.dc6f50bc.png1651266989644974300 0
 83/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/toDate/index.js1651266503044974300 0
 97/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/formatDistanceStrict/index.js1651266502294974300 0
 87/home/jatkin80/store-inventory-manager/node_modules/date-fns/esm/fp/parseISOWithOptions1651266532884974300 1
