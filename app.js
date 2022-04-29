@@ -1,4 +1,5 @@
-const today = format(new Date(), "D", { useAdditionalDayOfYearTokens: true })
+import { format, parseISO } from "date-fns"
+const today = format( new Date(), "D", { useAdditionalDayOfYearTokens: true } )
 console.log(today)
 const entryForm = document.querySelector('#entry-form')
 const reviewInventory = document.querySelector('.review-inventory')
@@ -46,13 +47,15 @@ let inventory = [
 
 entryForm.addEventListener("submit", (event) => {
     event.preventDefault()
-      const formdata = new FormData( event.target )
+    const formdata = new FormData( event.target )
+
     const item = {
         name: formdata.get( "item-entry" ),
         sellIn: formdata.get( "sell-in" ),
         quality: formdata.get( "quality" ),
         dateAdded: format( parseISO( formdata.get( "date-added" ) ), "D", { useAdditionalDayOfYearTokens: true })
     }
+
     console.log (item)
     inventory.push(item)
     inventory.forEach(item => {
@@ -109,7 +112,8 @@ function sellIn(item) {
 
 function qualityCheck ( item )
 {
-    const qualityTime=today-item.dateAdded
+    const qualityTime = today - item.dateAdded
+
     if (item.name.includes("Aged Brie")) {
         item.quality = +item.quality + (qualityTime)
         return item
@@ -134,7 +138,7 @@ function qualityCheck ( item )
             return item
         }
     } else {
-        item.quality = +item.quality - (qualit)
+        item.quality = +item.quality - (qualityTime)
         return item
     }
 }
