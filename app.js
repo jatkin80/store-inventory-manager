@@ -1,4 +1,4 @@
-import { format, parseISO } from "gitigndate-fns"
+import { format, parseISO } from "date-fns"
 const today = format(new Date(), "D", { useAdditionalDayOfYearTokens: true })
 console.log(today)
 const entryForm = document.querySelector('#entry-form')
