@@ -1,5 +1,10 @@
-Working on submissions! Still need to refactor and make sure it all works for real.
+Committing for no reason other than that it all finally works and to keep track of things that need attention.
 
+
+* Don't commit your console.logs
+* Watch your whitespace
+*You're using let for inventory, even though it's not being reassigned. Note that adding/removing/changing stuff in an array or object is not the same as reassigning.
+*Things like this are usually a good-sounding idea that you'll pretty much always regret: addToPage(createList(qualityCheck(sellIn(item)))). I have to hold myself back from doing that kind of thing too. Your readability and editabililty will be better if you use a couple of variables for that.
 # Store Inventory Manager
 
 Welcome to team Gilded Rose. You are asked to help build our store inventory management system. All items have a `sell_in` value which denotes the number of days we have left to sell the item and a `quality` value which denotes how valuable the item is. At the end of each day our software should lower both values for every item by 1.
