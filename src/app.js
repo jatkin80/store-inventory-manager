@@ -27,26 +27,6 @@ entryForm.addEventListener( "submit", ( event ) =>
     })
 
 
-function startingTable (item) {
-    const tableRow = document.createElement("tr")
-    if (item.name.includes('Sulfuras')) {
-        tableRow.innerHTML = `
-    <td>${item.name}</td>
-    <td>${item.sellIn}</td>
-    <td>80</td>
-    <td>${item.dateAdded}</td>
-    `
-    tableHead.append(tableRow)
-    } else {
-        tableRow.innerHTML = `
-        <td>${item.name}</td>
-        <td>${item.sellIn}</td>
-        <td>${item.quality}</td>
-        `
-        tableHead.append(tableRow)
-    }
-
-}
 function createItemListing ( item )
 {
         const tableRow = document.createElement( 'tr' )
@@ -61,14 +41,6 @@ function createItemListing ( item )
         return tableHead
 }
 
-generateTable.addEventListener( 'click', event =>
-{
-    tableHead.innerHTML = ``
-    items.forEach( item =>
-    {
-        startingTable( item )
-    } )
-})
 
 
 function qualityCheck(event) {
@@ -108,49 +80,3 @@ function qualityCheck(event) {
         createItemListing(item)
     })
 }
-
-
-
-//  function getCategory(item) {
-//  if (item.name.includes("Conjured")) {
-//         item.category = "Conjured"
-//     } else if (item.name.includes("Aged Brie")) {
-//         item.category = "Aged Brie"
-//     } else if (item.name.includes("Backstage passes")) {
-//         item.category = "Backstage passes"
-//     } else if (item.name.includes("Sulfuras")) {
-//         item.category = "Sulfuras"
-//         item.quality = 80
-//     } else {
-//         item.category = "none"
-//     }
-// }
-
-// function updateSellIn ( item )
-// {
-
-//     if (item.category === "Sulfuras") {
-//       return item.sellIn = 0
-//     } else if (item.sellIn > 0) {
-//         return item.sellIn = item.sell_in - today
-//     } else {
-//        return item.sellIn = 0
-//     }
-// }
-
-
-// function qualityCheck(item) {
-//     if (item.category === "Sulfuras") {
-//         return item.quality = 80
-//     } else if (item.category === "Aged Brie" && item.quality < 50) {
-//         return item.quality
-//     } else if (item.category === "Backstage passes" && item.quality < 50) {
-//         return item.quality
-//     } else if (item.quality > 50) {
-//         return item.quality = 50
-//     } else if (item.quality <= 0) {
-//         return item.quality = 0
-//     } else {
-//         return item.quality
-//     }
-// }
