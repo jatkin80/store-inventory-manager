@@ -530,9 +530,6 @@ var _dateFns = require("date-fns");
 const today = _dateFns.format(new Date(), "D", {
     useAdditionalDayOfYearTokens: true
 });
-console.log(today);
-const entryForm = document.querySelector('#entry-form');
-const reviewInventory = document.querySelector('.review-inventory');
 let inventory = [
     {
         name: "+5 Dexterity Vest",
@@ -571,10 +568,13 @@ let inventory = [
         dateAdded: today
     }
 ];
+const reviewTable = document.querySelector("#review_table");
+const entryForm = document.querySelector("#entry-form");
 entryForm.addEventListener("submit", (event)=>{
     event.preventDefault();
+    reviewTable.innerHTML = ``;
     const formdata = new FormData(event.target);
-    const item1 = {
+    const newItem = {
         name: formdata.get("item-entry"),
         sellIn: formdata.get("sell-in"),
         quality: formdata.get("quality"),
@@ -582,68 +582,90 @@ entryForm.addEventListener("submit", (event)=>{
             useAdditionalDayOfYearTokens: true
         })
     };
-    console.log(item1);
-    inventory.push(item1);
+    inventory.push(newItem);
     inventory.forEach((item)=>{
-        addToPage(createList(qualityCheck(sellIn(item))));
+        addToPage(itemList(degradation(item)));
     });
     event.target.reset();
 });
-function createList(item) {
-    const tableHead = document.querySelector("#data");
-    const listItem = document.createElement("tbody");
-    listItem.classList.add("item-listing");
-    listItem.innerHTML = `
-        <tr>
-            <td>${item.name}</td>
-            <td>${item.quality}</td>
-            <td>${item.sellIn}</td>
-        </tr>
+inventory.forEach((item)=>{
+    addToPage(itemList(degradation(item)));
+});
+function itemList(item) {
+    const addToTable = document.createElement("tr");
+    addToTable.classList.add("item-listing");
+    addToTable.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.sellIn}</td>
+        <td>${item.quality}</td>
     `;
-    tableHead.append(listItem);
-    return listItem;
+    return addToTable;
 }
-function addToPage(itemListing) {
-    reviewInventory.append(itemListing);
+function addToPage(itemList1) {
+    reviewTable.append(itemList1);
 }
-function sellIn(item) {
-    if (item.name.includes("Sulfuras")) {
-        item.quality = 80;
-        return item;
-    } else {
-        item.sellIn = item.sellIn - (today - item.dateAdded);
-        return item;
-    }
+function qualityCheck(quality) {
+    if (quality > 50) return quality = 50;
+    else if (quality < 0) return quality = 0;
+    return quality;
 }
-function qualityCheck(item) {
-    const qualityTime = today - item.dateAdded;
-    if (item.name.includes("Aged Brie")) {
-        item.quality = +item.quality + qualityTime;
+function standardDegradation(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality - (today - item.dateAdded));
+    return item;
+}
+function agedBrie(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality + (today - item.dateAdded));
+    return item;
+}
+function sulfuras(item) {
+    item.quality = 80;
+    return item;
+}
+function conjured(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality - double(today - item.dateAdded));
+    return item;
+}
+function backstagePass(item) {
+    const newSellIn = item.sellIn - (today - item.dateAdded);
+    if (item.sellIn > 10 && newSellIn > 10) {
+        item.sellIn = newSellIn;
+        item.quality = qualityCheck(item.quality + (today - item.dateAdded));
         return item;
-    } else if (item.name.includes("Sulfuras")) {
-        item.quality = 80;
+    } else if (item.sellIn <= 10 && item.sellIn > 5 && newSellIn <= 10 && newSellIn > 5) {
+        item.sellIn = newSellIn;
+        item.quality = qualityCheck(item.quality + double(today - item.dateAdded));
         return item;
-    } else if (item.name.includes("Conjured")) {
-        item.quality = +item.quality - double(qualityTime);
+    } else if (item.sellIn <= 5 && item.sellIn > 0 && newSellIn <= 5 && newSellIn > 0) {
+        item.sellIn = newSellIn;
+        item.quality = qualityCheck(item.quality + triple(today - item.dateAdded));
         return item;
-    } else if (item.name.includes("Backstage pass")) {
-        if (item.sellIn > 10) {
-            item.quality = +item.quality + qualityTime;
-            return item;
-        } else if (item.sellIn <= 10 && item.sellIn > 5) {
-            item.quality = +item.quality + double(qualityTime);
-            return item;
-        } else if (item.sellIn <= 5 && item.sellIn > 0) {
-            item.quality = +item.quality + triple(qualityTime);
-            return item;
-        } else {
-            item.quality = 0;
-            return item;
-        }
-    } else {
-        item.quality = +item.quality - qualityTime;
+    } else if (item.sellIn <= 0 || newSellIn <= 0) {
+        item.sellIn = newSellIn;
+        item.quality = 0;
         return item;
-    }
+    } else if (item.sellIn > 10 && newSellIn <= 10 && newSellIn > 5) {
+        item.quality = qualityCheck(item.quality + (item.sellIn - 10) + double(10 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else if (item.sellIn > 10 && newSellIn <= 5 && newSellIn > 0) {
+        item.quality = qualityCheck(item.quality + (item.sellIn - 10) + 10 + triple(5 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else if (item.sellIn <= 10 && item.sellIn > 5 && newSellIn <= 5 && newSellIn > 0) {
+        item.quality = qualityCheck(item.quality + double(item.sellIn - 5) + triple(5 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else return item;
+}
+function degradation(item) {
+    if (item.name.includes("Aged Brie")) return agedBrie(item);
+    else if (item.name.includes("Sulfuras")) return sulfuras(item);
+    else if (item.name.includes("Conjured")) return conjured(item);
+    else if (item.name.includes("Backstage pass")) return backstagePass(item);
+    else return standardDegradation(item);
 }
 function double(number) {
     return number * 2;
