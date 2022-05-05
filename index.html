@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Inventory Manager</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="dist/gilded_rose_favicon.f10cfd6c.png">
-    <link rel="stylesheet" href="dist/index.2cdaf7bc.css">
-    <script defer type="module" src="src/app.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="/src/gilded_rose_favicon.png">
+    <link rel="stylesheet" href="/src/style.css">
+    <script defer type="module" src="/src/app.js"></script>
 
 </head>
 
@@ -16,43 +16,41 @@
     <header>
         <h1>Gilded Rose Store Inventory Manager</h1>
     </header>
-    <h2>Current Inventory</h2>
     <main>
-        <table id="inventory_table">
-            <thead>
-                <th>Item</th>
-                <th>Sell In</th>
-                <th>Quality</th>
-            </thead>
-            <tbody id="" review_table></tbody>
-            <form id="entry-form">
-                <label for="item-entry">Item:</label>
-                <input type="text" name="item-entry" id="item-entry" placeholder="+5 Dexterity Vest, Aged Brie... ">
-                <label for="sell-in">Sell In:</label>
-                <input type="number" name="sell-in" id="sell-in" min="0" placeholder="Days to Sell ">
-                <label for="quality">Quality:</label>
-                <input type="number" name="quality" id="quality">
-                <label for="date-entered">Date Added:</label>
-                <input type="date" name="date-added" id="date-added">
-                <input type="reset" id="reset">
-                <button type="submit">Add to Inventory</button>
-            </form>
-            </div>
-            <h2>Review Inventory</h2>
-            <div class="review-inventory">
-                <table id="table">
-                    <thead>
-                        <tr>
-                            <th>Item </th>
-                            <th>Quality </th>
-                            <th>Sell-In</th>
-                        </tr>
-                    </thead>
-                    <tr id="review_table">
 
+
+        <form id="entry-form">
+            <label for="item-entry">Item:</label>
+            <input type="text" name="item-entry" id="item-entry" placeholder="+5 Dexterity Vest, Aged Brie... ">
+            <label for="sell-in">Sell In:</label>
+            <input type="number" name="sell-in" id="sell-in" min="0" placeholder="Days to Sell ">
+            <label for="quality">Quality:</label>
+            <input type="number" name="quality" id="quality">
+            <label for="date-entered">Date Added:</label>
+            <input type="date" name="date-added" id="date-added">
+            <button type="submit" id="generate_table">Add to Inventory</button>
+        </form>
+        </div>
+        <div class="show_inventory"></div>
+
+        <h2>Review Inventory</h2>
+        <div class="review-inventory">
+            <table id="table">
+                <thead id="data">
+                    <tr>
+                        <th>Item </th>
+                        <th>Sell-In</th>
+                        <th>Initial Quality </th>
+                        <th>Date Entered</th>
+                        <th>Remaining Sell-In</th>
+                        <th>Current Quality</th>
                     </tr>
-                </table>
-            </div>
+                </thead>
+                <tr id="review_table">
+
+                </tr>
+            </table>
+        </div>
     </main>
 </body>
 
