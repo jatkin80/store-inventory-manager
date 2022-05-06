@@ -1,82 +1,171 @@
 import { format, parseISO } from "date-fns"
-    const tableHead = document.querySelector( "#data" )
 const today = format( new Date(), "D", { useAdditionalDayOfYearTokens: true } )
-const reviewTable = document.querySelector("#review_table")
-const entryForm = document.querySelector("#entry-form")
-const generateTable=document.querySelector("#generate_table")
+console.log(today)
+const entryForm = document.querySelector( "#entry-form" )
+const tableBody = document.querySelector( "#data" )
 
-let items = []
-let item = {}
+let items = [{
+    name: "+5 Dexterity Vest",
+    sellIn: 10,
+    quality: 20,
+    date_added: today,
+}, {
+    name: "Aged Brie",
+    sellIn: 2,
+    quality: 0,
+    date_added: today,
+}, {
+    name: "Elixir of the Mongoose",
+    sellIn: 5,
+    quality: 7,
+    date_added: today,
+}, {
+    name: "Sulfuras, Hand of Ragnaros ",
+    sellIn: 0,
+    quality: 80,
+    date_added: today,
+}, {
+    name: "Backstage passes to a TAFKAL80ETC concert",
+    sellIn: 15,
+    quality: 20,
+    date_added: today,
+}, {
+    name: "Conjured Mana Cake",
+    sellIn: 3,
+    quality: 6,
+    date_added: today,
+    } ]
+createItemList(items)
 
 entryForm.addEventListener( "submit", ( event ) =>
-    {
-    event.preventDefault()
-    const formdata = new FormData( event.target )
-   const dateAdded= format( parseISO( formdata.get( "date-added" ) ), "D", { useAdditionalDayOfYearTokens: true } )
-    const item = {
-        name: formdata.get( "item-entry" ),
-        sellIn: +formdata.get( "sell-in" ),
-        quality: +formdata.get( "quality" ),
-        dateAdded: dateAdded,
-        category: "none",
-    }
-
-    qualityCheck(item)
-    items.push(item)
-    return items
-    })
-
-
-function createItemListing ( item )
 {
-        const tableRow = document.createElement( 'tr' )
-        tableRow.innerHTML = `
+    event.preventDefault()
+        tableBody.innerHTML=``
+
+    const formData = new FormData( event.target )
+    const item = {
+        name: formData.get( "item-entry" ),
+        sellIn: +formData.get( "sell-in" ),
+        quality: +formData.get( "quality" ),
+        dateAdded: format( parseISO( formData.get( "date-added" ) ), "D", { useAdditionalDayOfYearTokens: true } )
+    }
+    items= [...items, item]
+        bigDegrade( item )
+        qualityCheck( item )
+    createItemList( item )
+
+
+    } )
+
+
+function createItemList ( item )
+{
+    tableBody.innerHTML = ``
+    items.map(item=> {
+    const tableRow = document.createElement( 'tr' )
+    tableRow.innerHTML = `
         <td>${ item.name }</td>
-        <td>${item.sellIn}</td>
-        <td>${item.quality}</td>
-    <td>${item.remainingSellIn}</td>
-    <td>${item.currentQuality}</td>
+        <td>${ item.sellIn }</td>
+        <td>${ item.quality }</td>
     `
-    tableHead.append(tableRow)
-        return tableHead
+        return tableRow
+    })
+        .forEach( ( tableRow ) =>
+        {
+            tableBody.append( tableRow )
+        } )
 }
 
 
-
-function qualityCheck(event) {
-
-    tableHead.innerHTML=``
-    items.forEach( item =>
+    function qualityCheck ( item )
     {
-        const dateDifference= today-item.dateAdded
-        item.remainingSellIn = item.sellIn - dateDifference
-        if (item.name.includes('Aged Brie')) {
-            item.currentQuality = (+item.quality) + dateDifference
-        } else if (item.name.includes('Sulfuras')) {
-            item.currentQuality = item.quality
-            item.remainingSellIn = item.sellIn
-        }else if (item.name.includes('Backstage passes')) {
-            if ((+item.remainingSellIn) > 10) {
-                item.currentQuality = (+item.quality) + dateDifference
-            } else if ((+item.remainingSellIn) <= 10 && (+item.remainingSellIn) > 5) {
-                item.currentQuality = (+item.quality) + ((+item.sellIn) - 10) + (2 * (10 - (+item.remainingSellIn)))
-            } else if ((+item.remainingSellIn) <= 5) {
-                item.currentQuality = (+item.quality) + ((+item.sellIn) - 10) + 10 + (3 * (5 - (+item.remainingSellIn)))
-            }
-            if ((+item.remainingSellIn) <= 0) {
-                item.currentQuality = 0
-            }
-        } else if (item.name.includes('Conjured')) {
-            item.currentQuality = item.quality - (2 * (+dateDifference))
-        } else {
-            item.currentQuality = item.quality - dateDifference
+        if ( item.category === "Sulfuras" )
+        {
+            item.quality = 80
+        } else if ( item.quality >= 50 )
+        {
+            item.quality = 50
+        } else if ( item.quality <= 0 )
+        {
+            item.quality = 0
         }
-        if ((+item.currentQuality) >= 50 && !item.name.includes('Sulfuras')) {
-            item.currentQuality = 50
+        return item
+    }
+
+
+        function normalDegrade (item)
+    {
+        item.sellIn = item.sellIn - ( today - item.dateAdded )
+        item.quality = qualityCheck( item.quality - ( today - item.dateAdded ) )
+        return item
         }
-        if ((item.currentQuality) <= 0) {
-            item.currentQuality = 0
-        }
-        createItemListing(item)
-    })
+
+            function sulfuras ( item )
+    {
+        item.quality = 80
+    }
+
+    function conjured(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded)
+    item.quality = qualityCheck(item.quality - double(today - item.dateAdded))
+    return item
+    }
+function agedBrie(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded)
+    item.quality = qualityCheck(item.quality + (today - item.dateAdded))
+    return item
+}
+
+function backstagePasses(item) {
+    const newSellIn = item.sellIn - (today - item.dateAdded)
+    if (item.sellIn > 10 && newSellIn > 10) {
+        item.sellIn = newSellIn
+        item.quality = qualityAssurance(item.quality + (today - item.dateAdded))
+        return item
+    } else if ((item.sellIn <= 10 && item.sellIn > 5) && (newSellIn <= 10 && newSellIn > 5)) {
+        item.sellIn = newSellIn
+        item.quality = qualityAssurance(item.quality + double(today - item.dateAdded))
+        return item
+    } else if ((item.sellIn <= 5 && item.sellIn > 0) && (newSellIn <= 5 && newSellIn > 0)) {
+        item.sellIn = newSellIn
+        item.quality = qualityAssurance(item.quality + triple(today - item.dateAdded))
+        return item
+    } else if (item.sellIn <= 0 || newSellIn <= 0) {
+        item.sellIn = newSellIn
+        item.quality = 0
+        return item
+    } else if (item.sellIn > 10 && (newSellIn <= 10 && newSellIn > 5)) {
+        item.quality = qualityAssurance(item.quality + (item.sellIn - 10) + double(10 - newSellIn))
+        item.sellIn = newSellIn
+        return item
+    } else if (item.sellIn > 10 && (newSellIn <= 5 && newSellIn > 0)) {
+        item.quality = qualityAssurance(item.quality + (item.sellIn - 10) + 10 + triple(5 - newSellIn))
+        item.sellIn = newSellIn
+        return item
+    } else if ((item.sellIn <= 10 && item.sellIn > 5) && (newSellIn <= 5 && newSellIn > 0)) {
+        item.quality = qualityAssurance(item.quality + double(item.sellIn - 5) + triple(5 - newSellIn))
+        item.sellIn = newSellIn
+        return item
+    } else return item
+}
+
+    function bigDegrade(item) {
+    if (item.name.includes("Aged Brie")) {
+        return agedBrie(item)
+    } else if (item.name.includes("Sulfuras")) {
+        return sulfuras(item)
+    } else if (item.name.includes("Conjured")) {
+        return conjured(item)
+    } else if (item.name.includes("Backstage pass")) {
+        return backstagePasses(item)
+    } else {
+        return normalDegrade(item)
+    }
+}
+function double(number) {
+    return number * 2
+}
+
+function triple(number) {
+    return number * 3
 }

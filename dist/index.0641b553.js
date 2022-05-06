@@ -527,128 +527,154 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"bNKaB":[function(require,module,exports) {
 var _dateFns = require("date-fns");
-const tableHead = document.querySelector("#data");
 const today = _dateFns.format(new Date(), "D", {
     useAdditionalDayOfYearTokens: true
 });
-const reviewTable = document.querySelector("#review_table");
+console.log(today);
 const entryForm = document.querySelector("#entry-form");
-const generateTable = document.querySelector("#generate_table");
-let items = [];
-let item = {};
+const tableBody = document.querySelector("#data");
+let items = [
+    {
+        name: "+5 Dexterity Vest",
+        sellIn: 10,
+        quality: 20,
+        date_added: today
+    },
+    {
+        name: "Aged Brie",
+        sellIn: 2,
+        quality: 0,
+        date_added: today
+    },
+    {
+        name: "Elixir of the Mongoose",
+        sellIn: 5,
+        quality: 7,
+        date_added: today
+    },
+    {
+        name: "Sulfuras, Hand of Ragnaros ",
+        sellIn: 0,
+        quality: 80,
+        date_added: today
+    },
+    {
+        name: "Backstage passes to a TAFKAL80ETC concert",
+        sellIn: 15,
+        quality: 20,
+        date_added: today
+    },
+    {
+        name: "Conjured Mana Cake",
+        sellIn: 3,
+        quality: 6,
+        date_added: today
+    }
+];
+createItemList(items);
 entryForm.addEventListener("submit", (event)=>{
     event.preventDefault();
-    const formdata = new FormData(event.target);
-    const dateAdded = _dateFns.format(_dateFns.parseISO(formdata.get("date-added")), "D", {
-        useAdditionalDayOfYearTokens: true
-    });
-    const item1 = {
-        name: formdata.get("item-entry"),
-        sellIn: +formdata.get("sell-in"),
-        quality: +formdata.get("quality"),
-        dateAdded: dateAdded,
-        category: "none"
+    tableBody.innerHTML = ``;
+    const formData = new FormData(event.target);
+    const item = {
+        name: formData.get("item-entry"),
+        sellIn: +formData.get("sell-in"),
+        quality: +formData.get("quality"),
+        dateAdded: _dateFns.format(_dateFns.parseISO(formData.get("date-added")), "D", {
+            useAdditionalDayOfYearTokens: true
+        })
     };
-    qualityCheck(item1);
-    items.push(item1);
-    return items;
+    items = [
+        ...items,
+        item
+    ];
+    bigDegrade(item);
+    qualityCheck(item);
+    createItemList(item);
 });
-function startingTable(item2) {
-    const tableRow = document.createElement("tr");
-    if (item2.name.includes('Sulfuras')) {
+function createItemList(item1) {
+    tableBody.innerHTML = ``;
+    items.map((item)=>{
+        const tableRow = document.createElement('tr');
         tableRow.innerHTML = `
-    <td>${item2.name}</td>
-    <td>${item2.sellIn}</td>
-    <td>80</td>
-    <td>${item2.dateAdded}</td>
+        <td>${item.name}</td>
+        <td>${item.sellIn}</td>
+        <td>${item.quality}</td>
     `;
-        tableHead.append(tableRow);
-    } else {
-        tableRow.innerHTML = `
-        <td>${item2.name}</td>
-        <td>${item2.sellIn}</td>
-        <td>${item2.quality}</td>
-        `;
-        tableHead.append(tableRow);
-    }
-}
-function createItemListing(item3) {
-    const tableRow = document.createElement('tr');
-    tableRow.innerHTML = `
-        <td>${item3.name}</td>
-        <td>${item3.sellIn}</td>
-        <td>${item3.quality}</td>
-    <td>${item3.remainingSellIn}</td>
-    <td>${item3.currentQuality}</td>
-    `;
-    tableHead.append(tableRow);
-    return tableHead;
-}
-generateTable.addEventListener('click', (event)=>{
-    tableHead.innerHTML = ``;
-    items.forEach((item4)=>{
-        startingTable(item4);
+        return tableRow;
+    }).forEach((tableRow)=>{
+        tableBody.append(tableRow);
     });
-});
-function qualityCheck(event) {
-    tableHead.innerHTML = ``;
-    items.forEach((item5)=>{
-        const dateDifference = today - item5.dateAdded;
-        item5.remainingSellIn = item5.sellIn - dateDifference;
-        if (item5.name.includes('Aged Brie')) item5.currentQuality = +item5.quality + dateDifference;
-        else if (item5.name.includes('Sulfuras')) {
-            item5.currentQuality = item5.quality;
-            item5.remainingSellIn = item5.sellIn;
-        } else if (item5.name.includes('Backstage passes')) {
-            if (+item5.remainingSellIn > 10) item5.currentQuality = +item5.quality + dateDifference;
-            else if (+item5.remainingSellIn <= 10 && +item5.remainingSellIn > 5) item5.currentQuality = +item5.quality + (+item5.sellIn - 10) + 2 * (10 - +item5.remainingSellIn);
-            else if (+item5.remainingSellIn <= 5) item5.currentQuality = +item5.quality + (+item5.sellIn - 10) + 10 + 3 * (5 - +item5.remainingSellIn);
-            if (+item5.remainingSellIn <= 0) item5.currentQuality = 0;
-        } else if (item5.name.includes('Conjured')) item5.currentQuality = item5.quality - 2 * +dateDifference;
-        else item5.currentQuality = item5.quality - dateDifference;
-        if (+item5.currentQuality >= 50 && !item5.name.includes('Sulfuras')) item5.currentQuality = 50;
-        if (item5.currentQuality <= 0) item5.currentQuality = 0;
-        createItemListing(item5);
-    });
-} //  function getCategory(item) {
- //  if (item.name.includes("Conjured")) {
- //         item.category = "Conjured"
- //     } else if (item.name.includes("Aged Brie")) {
- //         item.category = "Aged Brie"
- //     } else if (item.name.includes("Backstage passes")) {
- //         item.category = "Backstage passes"
- //     } else if (item.name.includes("Sulfuras")) {
- //         item.category = "Sulfuras"
- //         item.quality = 80
- //     } else {
- //         item.category = "none"
- //     }
- // }
- // function updateSellIn ( item )
- // {
- //     if (item.category === "Sulfuras") {
- //       return item.sellIn = 0
- //     } else if (item.sellIn > 0) {
- //         return item.sellIn = item.sell_in - today
- //     } else {
- //        return item.sellIn = 0
- //     }
- // }
- // function qualityCheck(item) {
- //     if (item.category === "Sulfuras") {
- //         return item.quality = 80
- //     } else if (item.category === "Aged Brie" && item.quality < 50) {
- //         return item.quality
- //     } else if (item.category === "Backstage passes" && item.quality < 50) {
- //         return item.quality
- //     } else if (item.quality > 50) {
- //         return item.quality = 50
- //     } else if (item.quality <= 0) {
- //         return item.quality = 0
- //     } else {
- //         return item.quality
- //     }
- // }
+}
+function qualityCheck(item) {
+    if (item.category === "Sulfuras") item.quality = 80;
+    else if (item.quality >= 50) item.quality = 50;
+    else if (item.quality <= 0) item.quality = 0;
+    return item;
+}
+function normalDegrade(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality - (today - item.dateAdded));
+    return item;
+}
+function sulfuras(item) {
+    item.quality = 80;
+}
+function conjured(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality - double(today - item.dateAdded));
+    return item;
+}
+function agedBrie(item) {
+    item.sellIn = item.sellIn - (today - item.dateAdded);
+    item.quality = qualityCheck(item.quality + (today - item.dateAdded));
+    return item;
+}
+function backstagePasses(item) {
+    const newSellIn = item.sellIn - (today - item.dateAdded);
+    if (item.sellIn > 10 && newSellIn > 10) {
+        item.sellIn = newSellIn;
+        item.quality = qualityAssurance(item.quality + (today - item.dateAdded));
+        return item;
+    } else if (item.sellIn <= 10 && item.sellIn > 5 && newSellIn <= 10 && newSellIn > 5) {
+        item.sellIn = newSellIn;
+        item.quality = qualityAssurance(item.quality + double(today - item.dateAdded));
+        return item;
+    } else if (item.sellIn <= 5 && item.sellIn > 0 && newSellIn <= 5 && newSellIn > 0) {
+        item.sellIn = newSellIn;
+        item.quality = qualityAssurance(item.quality + triple(today - item.dateAdded));
+        return item;
+    } else if (item.sellIn <= 0 || newSellIn <= 0) {
+        item.sellIn = newSellIn;
+        item.quality = 0;
+        return item;
+    } else if (item.sellIn > 10 && newSellIn <= 10 && newSellIn > 5) {
+        item.quality = qualityAssurance(item.quality + (item.sellIn - 10) + double(10 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else if (item.sellIn > 10 && newSellIn <= 5 && newSellIn > 0) {
+        item.quality = qualityAssurance(item.quality + (item.sellIn - 10) + 10 + triple(5 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else if (item.sellIn <= 10 && item.sellIn > 5 && newSellIn <= 5 && newSellIn > 0) {
+        item.quality = qualityAssurance(item.quality + double(item.sellIn - 5) + triple(5 - newSellIn));
+        item.sellIn = newSellIn;
+        return item;
+    } else return item;
+}
+function bigDegrade(item) {
+    if (item.name.includes("Aged Brie")) return agedBrie(item);
+    else if (item.name.includes("Sulfuras")) return sulfuras(item);
+    else if (item.name.includes("Conjured")) return conjured(item);
+    else if (item.name.includes("Backstage pass")) return backstagePasses(item);
+    else return normalDegrade(item);
+}
+function double(number) {
+    return number * 2;
+}
+function triple(number) {
+    return number * 3;
+}
 
 },{"date-fns":"9yHCA"}],"9yHCA":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
