@@ -1,6 +1,5 @@
 import { format, parseISO } from "date-fns"
 const today = format( new Date(), "D", { useAdditionalDayOfYearTokens: true } )
-console.log( today )
 const entryForm = document.querySelector( "#entry-form" )
 const tableBody = document.querySelector( "#data" )
 
