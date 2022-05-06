@@ -1,5 +1,4 @@
-Committing for no reason other than that it all finally works and to keep track of things that need attention.
-
+I have all of the degrade functions, but using datefns is making it hella complicated to use said functions without having to create a whole new page. Do I really *need* that? :)
 
 * Don't commit your console.logs
 * Watch your whitespace
