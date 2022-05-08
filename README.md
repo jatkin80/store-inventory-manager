@@ -1,4 +1,4 @@
 # Gilded Rose Store Inventory Manager
-[Start Shopping](git@github.com:jatkin80/store-inventory-manager.git)
+[Start Shopping](https://jatkin80.github.io/store-inventory-manager/)
 
 <img src="/src/store_inventory_screenshot.jpg">
